@@ -17,7 +17,14 @@ yay -S libinih
 
 ## Commands 
 
-- add task : `todo -a "<task_name>"` (task name should be in quotes)
+- add task : `todo -a "<task_name>" [priority]`
+  Add a task with optional priority
+  - `"<task_name>"` is the name of the task and should be in quotes 
+  - `<priority>` is optional and can be on of the following:
+    - `-h` : high priority
+    - `-m` : medium priority
+    - `-l` : low priority
+    If none of these are provided, then no priority is assumed.
 - List all tasks : `todo -l`
 - Mark tasks as completed : `todo -c <task_number>`
 - Delete a task : `todo -d <task_number>`
