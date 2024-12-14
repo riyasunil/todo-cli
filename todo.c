@@ -129,6 +129,19 @@ void list_tasks() {
   }
 }
 
+void delete_task(int task_number){
+  json_t *tasks = load_tasks();
+  if(task_number <=0 || task_number > json_array_size(tasks)){
+    fprintf(stderr, "Invalid task number\n");
+    return;
+  }
+  json_t *task = json_array_get(tasks, task_number-1);
+  printf(json_string_value((json_object_get(task, "name"))));
+  json_array_remove(tasks, task_number-1);
+  save_file(tasks);
+  printf("- Task deleted :]");
+
+}
 void complete_task(int task_number) {
   json_t *tasks = load_tasks();
   if (task_number <= 0 || task_number > json_array_size(tasks)) {
@@ -159,6 +172,14 @@ void handle_args(int argc, char *argv[]){
       exit(1);
     }
     complete_task(task_number);
+  }
+  else if (strcmp(argv[1], "-c") == 0 && argc ==3) {
+    int task_number = atoi(argv[2]);
+    if(task_number <=0 ){
+      fprintf(stderr, "Invalid task number.\n");
+      exit(1);
+    }
+    delete_task(task_number);
   }
   else if(strcmp(argv[1], "-l") == 0){
     list_tasks();
