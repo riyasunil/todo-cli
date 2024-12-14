@@ -159,13 +159,13 @@ void complete_task(int task_number) {
 
 void handle_args(int argc, char *argv[]){
   if(argc <2){
-    printf("Usage:\n todo [-a <task-name>] : add task \n [-d <task-number>] : mark task as done \n [-l] : list tasks\n");
+    printf("Usage:\n todo [-a <task-name>] : add task \n [-c <task-number>] : mark task as completed \n [-d <task-number>] : delete task \n [-l] : list tasks\n");
     exit(1);
   }
   if(strcmp(argv[1], "-a") == 0 && argc == 3){
     add_task(argv[2]);
   }
-  else if(strcmp(argv[1], "-d") == 0 && argc == 3){
+  else if(strcmp(argv[1], "-c") == 0 && argc == 3){
     int task_number = atoi(argv[2]);
     if (task_number <= 0) {
       fprintf(stderr, "Invalid task number.\n");
@@ -173,7 +173,7 @@ void handle_args(int argc, char *argv[]){
     }
     complete_task(task_number);
   }
-  else if (strcmp(argv[1], "-c") == 0 && argc ==3) {
+  else if (strcmp(argv[1], "-d") == 0 && argc ==3) {
     int task_number = atoi(argv[2]);
     if(task_number <=0 ){
       fprintf(stderr, "Invalid task number.\n");
@@ -185,7 +185,7 @@ void handle_args(int argc, char *argv[]){
     list_tasks();
   }
   else{
-    printf("Invalid arguments.\n Usage: todo [-a <task>] [-d <task_number>] [-l]\n");
+    printf("Invalid arguments.\n Usage: todo [-a <task>] [-c <task_number>] [-d <task-number>] [-l]\n");
     exit(1);
   }
 }

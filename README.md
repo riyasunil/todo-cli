@@ -17,9 +17,10 @@ yay -S libinih
 
 ## Commands 
 
-- add task : `todo -a <task_name>`
+- add task : `todo -a "<task_name>"` (task name should be in quotes)
 - List all tasks : `todo -l`
-- Mark tasks as completed : `todo -d <task_number>`
+- Mark tasks as completed : `todo -c <task_number>`
+- Delete a task : `todo -d <task_number>`
 
 ### to run locally:
 
