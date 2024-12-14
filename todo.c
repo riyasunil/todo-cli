@@ -87,7 +87,7 @@ int save_file(json_t *tasks){
   return 0;
 }
 
-void add_task(const char* task_name){
+void add_task(const char* task_name, int priority){
   json_t *tasks = load_tasks();
 
   char timestamp[20];
@@ -95,6 +95,7 @@ void add_task(const char* task_name){
 
   json_t *task = json_object();
   json_object_set_new(task, "name", json_string(task_name));
+  json_object_set_new(task, "priority", json_integer(priority));
   json_object_set_new(task, "completed", json_boolean(0));
   json_object_set_new(task, "date_added", json_string(timestamp));
 
@@ -119,9 +120,9 @@ void list_tasks() {
   json_array_foreach(tasks, index, task) {
     const char *name = json_string_value(json_object_get(task, "name"));
     int completed = json_boolean_value(json_object_get(task, "completed"));
-    const char *date_added = json_string_value(json_object_get(task, "date_added"));
+    int priority = json_integer_value(json_object_get(task, "priority"));
 
-    printf("%d. %s", task_number++, name);
+    printf("%d. %s, [%d]", task_number++, name, priority);
     if (completed) {
       printf(" [Completed]");
     }
@@ -159,11 +160,11 @@ void complete_task(int task_number) {
 
 void handle_args(int argc, char *argv[]){
   if(argc <2){
-    printf("Usage:\n todo [-a <task-name>] : add task \n [-c <task-number>] : mark task as completed \n [-d <task-number>] : delete task \n [-l] : list tasks\n");
+    printf("Usage:\n todo [-a <task-name> <task_priority>] : add task \n [-c <task-number>] : mark task as completed \n [-d <task-number>] : delete task \n [-l] : list tasks\n");
     exit(1);
   }
-  if(strcmp(argv[1], "-a") == 0 && argc == 3){
-    add_task(argv[2]);
+  if(strcmp(argv[1], "-a") == 0 && argc ==4 && atoi(argv[3])>=0){
+    add_task(argv[2], atoi(argv[3]));
   }
   else if(strcmp(argv[1], "-c") == 0 && argc == 3){
     int task_number = atoi(argv[2]);
