@@ -87,7 +87,7 @@ int save_file(json_t *tasks){
   return 0;
 }
 
-void add_task(const char* task_name, int priority){
+void add_task(const char* task_name){
   json_t *tasks = load_tasks();
 
   char timestamp[20];
@@ -95,7 +95,7 @@ void add_task(const char* task_name, int priority){
 
   json_t *task = json_object();
   json_object_set_new(task, "name", json_string(task_name));
-  json_object_set_new(task, "priority", json_integer(priority));
+  //json_object_set_new(task, "priority", json_integer(priority));
   json_object_set_new(task, "completed", json_boolean(0));
   json_object_set_new(task, "date_added", json_string(timestamp));
 
@@ -163,8 +163,8 @@ void handle_args(int argc, char *argv[]){
     printf("Usage:\n todo [-a <task-name> <task_priority>] : add task \n [-c <task-number>] : mark task as completed \n [-d <task-number>] : delete task \n [-l] : list tasks\n");
     exit(1);
   }
-  if(strcmp(argv[1], "-a") == 0 && argc ==4 && atoi(argv[3])>=0){
-    add_task(argv[2], atoi(argv[3]));
+  if(strcmp(argv[1], "-a") == 0 && argc ==4){
+    add_task(argv[2]);
   }
   else if(strcmp(argv[1], "-c") == 0 && argc == 3){
     int task_number = atoi(argv[2]);
